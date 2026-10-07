@@ -1,1 +1,1 @@
-Project title: version B
+Project title: main version
