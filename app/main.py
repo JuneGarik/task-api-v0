@@ -1,7 +1,15 @@
+import logging
 import asyncio
 
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
+
+from app.core.config import settings
+from app.core.logging import setup_logging
+
+
+setup_logging(settings.log_level)
+logger = logging.getLogger(__name__)
 
 class TaskCreate(BaseModel):
    title: str = Field(min_length=1, max_length=200)
@@ -22,11 +30,17 @@ tasks: dict[int, Task] = {}
 next_id: int = 1
 
 
-app = FastAPI(title="Task Manager")
+app = FastAPI(
+    title=settings.app_name,
+    version=settings.app_version,
+    debug=settings.debug,
+)
 
 @app.get("/health")
 async def health():
-   return {"status": "ok"}
+    logger.debug("health check details: status=ok")
+    logger.info("health check called")
+    return {"status": "ok"}
 
 @app.post("/tasks", response_model= Task)
 async def create_task(payload: TaskCreate):
