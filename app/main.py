@@ -50,7 +50,7 @@ async def list_task():
 async def get_task(task_id: int):
    task = tasks.get(task_id)
    if task is None:
-      raise HTTPException(status_code=404, detail="no such element")
+      raise HTTPException(status_code=404, detail="task not found")
    return task
 
 @app.patch("/tasks/{task_id}", response_model=Task)
