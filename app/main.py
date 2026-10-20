@@ -36,7 +36,7 @@ app = FastAPI(
     debug=settings.debug,
 )
 
-@app.get("/health")
+@app.get("/health")  # подняться... надо подняться
 async def health():
     logger.debug("health check details: status=ok")
     logger.info("health check called")
